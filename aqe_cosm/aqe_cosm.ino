@@ -11,13 +11,19 @@
 
 EggBus eggBus;
 
+#define EGG_BUS_NUM_HOSTED_SENSORS 2
+const float independent_scaler[EGG_BUS_NUM_HOSTED_SENSORS] = {0.0001f, 0.0004f};
+const uint32_t independent_scaler_inverse[EGG_BUS_NUM_HOSTED_SENSORS] = { 10000, 2500 };
+
 #define DHTPIN 17 // analog pin 3
 #define DHTTYPE DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
-// Change these settings to match your feed and api key
-#define FEED "FEED_ID"
-#define APIKEY "YOUR_API_KEY"
+// Feed: AQE Berkeley 001
+#define FEED "86281"
+
+// Key: AQE Berkeley 001 (169.229.208.128)
+#define APIKEY "MzdPHsT3aMACqD3CsEUYp_0Y9rOSAKx5d0RsQjhDdDY1WT0g"
 
 // Upload frequency in milliseconds
 #define FREQUENCY 20000
@@ -78,8 +84,16 @@ void loop() {
         stash.print(eggBus.getSensorType(ii));
         Serial.print(",");
         stash.print(",");
-        Serial.println(eggBus.getSensorValue(ii), 4);
-        stash.println(eggBus.getSensorValue(ii), 4);
+        
+        float i_scaler = eggBus.getIndependentScaler(ii);
+        uint32_t measured_value = eggBus.getSensorIndependentVariableMeasure(ii);
+        float independent_variable_value = (i_scaler * measured_value);
+        
+        Serial.print(i_scaler, 6); Serial.print(" * ");
+        Serial.print(measured_value); Serial.print(" = ");
+        Serial.println(independent_variable_value);
+        
+        stash.println(independent_variable_value, 6);
       }
     }
 
