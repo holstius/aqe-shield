@@ -20,7 +20,7 @@ const uint32_t independent_scaler_inverse[EGG_BUS_NUM_HOSTED_SENSORS] = { 10000,
 DHT dht(DHTPIN, DHTTYPE);
 
 // Feed: AQE Berkeley 001
-#define FEED "86281"
+#define FEED "86417"
 
 // Key: AQE Berkeley 001 (169.229.208.128)
 #define APIKEY "MzdPHsT3aMACqD3CsEUYp_0Y9rOSAKx5d0RsQjhDdDY1WT0g"
